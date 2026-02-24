@@ -6,11 +6,17 @@ const App = ()=>{
   const[imgURL,setimgURL] = useState("");
   const[desigNation, setdesigNation] = useState("");
   const[desc,setdesc] = useState("");
-  const[allUsers,setallUsers] = useState([]);
+
+const localData = JSON.parse(localStorage.getItem('all-users')) || [];
+
+console.log(localData);
+
+  const[allUsers,setallUsers] = useState(localData);
 
   function deleteUser(idx) {
     const copyUsers = [...allUsers];
     copyUsers.splice(idx,1);
+    localStorage.setItem("all-users",JSON.stringify(copyUsers));
     setallUsers(copyUsers);
   }
 
@@ -22,13 +28,13 @@ const App = ()=>{
     const newUser = {userName,desc,imgURL,desigNation};
     oldUser.push(newUser);
     setallUsers(oldUser);
+    localStorage.setItem("all-users",JSON.stringify(oldUser));
 
     setuserName("");
     setdesc("");
     setimgURL("");
     setdesigNation("");
     console.log("Form Submitted");
-    console.log(oldUser);
   }
 
 
@@ -42,7 +48,7 @@ const App = ()=>{
         onChange={(e)=>{
           setuserName(e.target.value);
         }}
-        className="w-[45%] border border-amber-50 focus:outline-none p-1"
+        className="w-[45%] border rounded border-amber-50 focus:outline-none p-1"
         type="text" placeholder="Enter your name" value={userName} />
 
 
@@ -50,7 +56,7 @@ const App = ()=>{
         onChange={(e)=>{
           setdesc(e.target.value);
         }}
-        className="w-[45%] focus:outline-none border border-amber-50 p-1"
+        className="w-[45%] focus:outline-none border rounded border-amber-50 p-1"
         type="text" placeholder="Description" value={desc}/>
 
 
@@ -58,7 +64,7 @@ const App = ()=>{
         onChange={(e)=>{
           setimgURL(e.target.value);
         }}
-        className="w-[45%] focus:outline-none border border-amber-50 p-1"
+        className="w-[45%] focus:outline-none border rounded border-amber-50 p-1"
         type="text" placeholder="Profile pic URL" value={imgURL} />
 
 
@@ -66,7 +72,7 @@ const App = ()=>{
         onChange={(e)=>{
           setdesigNation(e.target.value);
         }}
-        className="w-[45%] focus:outline-none border border-amber-50 p-1"
+        className="w-[45%] focus:outline-none border border-amber-50 rounded p-1"
         type="text" placeholder="Designation" value={desigNation}/>
 
         <button
